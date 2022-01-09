@@ -7,6 +7,8 @@ import Scrollbar from '../../components/Scrollbar';
 import useResponsive from '../../hooks/useResponsive';
 import Logo from '../../components/Logo';
 import NavbarAccount from './NavbarAccount';
+import NavSectionVertical from '../../components/navbar/NavSectionVertical';
+import navConfig from './NavConfig';
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('lg')]: {
@@ -51,7 +53,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
         <NavbarAccount />
       </Stack>
 
-      {/* <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} /> */}
+      <NavSectionVertical navConfig={navConfig} />
 
       <Box sx={{ flexGrow: 1 }} />
 
