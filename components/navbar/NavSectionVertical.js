@@ -1,5 +1,6 @@
 import { styled } from '@mui/material/styles';
 import { List, Box, ListSubheader } from '@mui/material';
+import { v4 } from 'uuid';
 import { NavListRoot } from './NavList';
 
 export const ListSubheaderStyle = styled(
@@ -21,7 +22,7 @@ export default function NavSectionVertical({ navConfig, ...other }) {
   return (
     <Box {...other}>
       {navConfig.map((group) => (
-        <List key={group.subheader} disablePadding sx={{ px: 2 }}>
+        <List key={group.subheader || v4()} disablePadding sx={{ px: 2 }}>
           <ListSubheaderStyle>
             {group.subheader}
           </ListSubheaderStyle>

@@ -13,12 +13,15 @@
     "@emotion/styled": "^11.6.0",
     "@iconify/react": "^3.1.1",
     "@mui/material": "^5.2.7",
+    "await-to-js": "^3.0.0",
+    "axios": "^0.24.0",
     "eslint-config-airbnb": "^19.0.4",
     "next": "12.0.7",
     "prop-types": "^15.8.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "simplebar-react": "^2.3.6"
+    "simplebar-react": "^2.3.6",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "eslint": "8.6.0",
