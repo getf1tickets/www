@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import ThemeProvider from '../theme';
+import Layout from '../layout';
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -9,7 +10,9 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <ThemeProvider>
-        <Component {...pageProps} />
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
       </ThemeProvider>
     </>
   );
