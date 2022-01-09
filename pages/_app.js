@@ -3,6 +3,8 @@ import ThemeProvider from '../theme';
 import Layout from '../layout';
 
 function MyApp({ Component, pageProps }) {
+  const { getLayout } = Component;
+
   return (
     <>
       <Head>
@@ -10,9 +12,12 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <ThemeProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        {getLayout && getLayout(<Component {...pageProps} />)}
+        {!getLayout && (
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        )}
       </ThemeProvider>
     </>
   );

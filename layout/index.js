@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import DashboardHeader from './header';
 import NavbarVertical from './navbar';
 import { HEADER, NAVBAR } from '../utils/config';
+import Logo from '../components/Logo';
 
 const MainStyle = styled('main', {
   shouldForwardProp: (prop) => prop !== 'collapseClick',
@@ -26,9 +27,32 @@ const MainStyle = styled('main', {
   },
 }));
 
-export default function Layout({ children }) {
+const OnlyLogoStyle = styled('header')(({ theme }) => ({
+  top: 0,
+  left: 0,
+  lineHeight: 0,
+  width: '100%',
+  position: 'absolute',
+  padding: theme.spacing(3, 3, 0),
+  [theme.breakpoints.up('sm')]: {
+    padding: theme.spacing(5, 5, 0),
+  },
+}));
+
+export default function Layout({ children, onlyLogo = false }) {
   // const isDesktop = useResponsive('up', 'lg');
   const [open, setOpen] = useState(false);
+
+  if (onlyLogo) {
+    return (
+      <>
+        <OnlyLogoStyle>
+          <Logo />
+        </OnlyLogoStyle>
+        {children}
+      </>
+    );
+  }
 
   return (
     <Box

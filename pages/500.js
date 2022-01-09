@@ -4,6 +4,7 @@ import {
   Box, Button, Typography, Container,
 } from '@mui/material';
 import Page from '../components/Page';
+import Layout from '../layout';
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -12,6 +13,11 @@ const RootStyle = styled('div')(({ theme }) => ({
   paddingTop: theme.spacing(15),
   paddingBottom: theme.spacing(10),
 }));
+
+// eslint-disable-next-line no-use-before-define
+Page500.getLayout = function getLayout(page) {
+  return <Layout onlyLogo>{page}</Layout>;
+};
 
 export default function Page500() {
   return (
