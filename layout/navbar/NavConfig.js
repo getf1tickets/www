@@ -23,6 +23,27 @@ const navConfig = [
   },
   {
     subheader: 'account',
+    require: {
+      unauthenticated: true,
+    },
+    items: [
+      {
+        title: 'login',
+        path: '/login',
+        icon: <Iconify icon="clarity:login-solid" />,
+      },
+      {
+        title: 'register',
+        path: '/register',
+        icon: <Iconify icon="bx:bxs-user-plus" />,
+      },
+    ],
+  },
+  {
+    subheader: 'account',
+    require: {
+      authenticated: true,
+    },
     items: [
       {
         title: 'profile',
@@ -43,6 +64,10 @@ const navConfig = [
   },
   {
     subheader: 'admin',
+    require: {
+      authenticated: true,
+      admin: true,
+    },
     items: [
       {
         title: 'manage',
@@ -52,6 +77,9 @@ const navConfig = [
     ],
   },
   {
+    require: {
+      authenticated: true,
+    },
     items: [
       {
         title: 'logout',

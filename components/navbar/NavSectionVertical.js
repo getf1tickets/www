@@ -2,6 +2,7 @@ import { styled } from '@mui/material/styles';
 import { List, Box, ListSubheader } from '@mui/material';
 import { v4 } from 'uuid';
 import { NavListRoot } from './NavList';
+import useUser from '../../hooks/useUser';
 
 export const ListSubheaderStyle = styled(
   (props) => <ListSubheader disableSticky disableGutters {...props} />,
@@ -19,19 +20,31 @@ export const ListSubheaderStyle = styled(
 );
 
 export default function NavSectionVertical({ navConfig, ...other }) {
+  const user = useUser();
+
   return (
     <Box {...other}>
-      {navConfig.map((group) => (
-        <List key={group.subheader || v4()} disablePadding sx={{ px: 2 }}>
-          <ListSubheaderStyle>
-            {group.subheader}
-          </ListSubheaderStyle>
+      {navConfig.map((group) => {
+        if (group.require?.authenticated && !user.isAuthenticated) {
+          return null;
+        }
 
-          {group.items.map((list) => (
-            <NavListRoot key={list.title} list={list} />
-          ))}
-        </List>
-      ))}
+        if (group.require?.unauthenticated && user.isAuthenticated) {
+          return null;
+        }
+
+        return ((
+          <List key={group.subheader || v4()} disablePadding sx={{ px: 2 }}>
+            <ListSubheaderStyle>
+              {group.subheader}
+            </ListSubheaderStyle>
+
+            {group.items.map((list) => (
+              <NavListRoot key={list.title} list={list} />
+            ))}
+          </List>
+        ));
+      })}
     </Box>
   );
 }

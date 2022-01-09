@@ -5,6 +5,7 @@ import { Box, Stack, Drawer } from '@mui/material';
 import { NAVBAR } from '../../utils/config';
 import Scrollbar from '../../components/Scrollbar';
 import useResponsive from '../../hooks/useResponsive';
+import useUser from '../../hooks/useUser';
 import Logo from '../../components/Logo';
 import NavbarAccount from './NavbarAccount';
 import NavSectionVertical from '../../components/navbar/NavSectionVertical';
@@ -22,6 +23,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
   const { pathname } = useRouter();
   const isDesktop = useResponsive('up', 'lg');
+  const { isAuthenticated } = useUser();
 
   useEffect(() => {
     if (isOpenSidebar) {
@@ -50,7 +52,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
           <Logo />
         </Stack>
 
-        <NavbarAccount />
+        {isAuthenticated && <NavbarAccount />}
       </Stack>
 
       <NavSectionVertical navConfig={navConfig} />

@@ -3,6 +3,7 @@ import {
   Box, AppBar, Toolbar, Stack,
 } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
+import useUser from '../../hooks/useUser';
 import { HEADER, NAVBAR } from '../../utils/config';
 import AccountPopover from './AccountPopover';
 import Iconify from '../../components/Iconify';
@@ -25,6 +26,7 @@ const RootStyle = styled(AppBar)(({
 
 export default function Header({ onOpenSidebar }) {
   const isDesktop = useResponsive('up', 'lg');
+  const { isAuthenticated } = useUser();
 
   return (
     <RootStyle>
@@ -45,7 +47,7 @@ export default function Header({ onOpenSidebar }) {
           {/* <LanguagePopover />
           <NotificationsPopover />
           <ContactsPopover /> */}
-          <AccountPopover />
+          {isAuthenticated && <AccountPopover />}
         </Stack>
       </Toolbar>
     </RootStyle>

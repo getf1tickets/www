@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import ThemeProvider from '../theme';
 import Layout from '../layout';
+import UserProvider from '../contexts/user';
 
 function MyApp({ Component, pageProps }) {
   const { getLayout } = Component;
@@ -12,12 +13,14 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <ThemeProvider>
-        {getLayout && getLayout(<Component {...pageProps} />)}
-        {!getLayout && (
+        <UserProvider>
+          {getLayout && getLayout(<Component {...pageProps} />)}
+          {!getLayout && (
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        )}
+          )}
+        </UserProvider>
       </ThemeProvider>
     </>
   );
