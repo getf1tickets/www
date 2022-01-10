@@ -24,10 +24,10 @@ const useProvideContext = () => {
       setAuthEntity(null);
 
       if (status === 400) {
-        return { success: false, error: 'Invalid credentials' };
+        return { success: false, error: 'Invalid credentials.' };
       }
 
-      return { success: false, error: 'Server error, please try again' };
+      return { success: false, error: 'Server error, please try again.' };
     }
 
     setAuthEntity(result);

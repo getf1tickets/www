@@ -1,61 +1,79 @@
 import * as Yup from 'yup';
 import { useState, useCallback } from 'react';
-import NextLink from 'next/link';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/router';
+import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Link, Stack, Alert, IconButton, InputAdornment,
+  Stack, IconButton, InputAdornment, Alert,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useRouter } from 'next/router';
 import Iconify from '../Iconify';
 import { FormProvider, RHFTextField } from '../form';
-import useUser from '../../hooks/useUser';
+import { post } from '../../utils/AsyncApi';
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
-  const { getAuthEntity } = useUser();
   const router = useRouter();
 
-  const LoginSchema = Yup.object().shape({
+  const RegisterSchema = Yup.object().shape({
+    firstName: Yup.string().required('First name required'),
+    lastName: Yup.string().required('Last name required'),
     email: Yup.string().email('Email must be a valid email address').required('Email is required'),
     password: Yup.string().required('Password is required'),
   });
 
   const defaultValues = {
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
   };
 
   const methods = useForm({
-    resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(RegisterSchema),
     defaultValues,
   });
 
   const {
-    handleSubmit,
     resetField,
     setError,
+    handleSubmit,
     formState: { errors, isSubmitting },
   } = methods;
 
   const onSubmit = useCallback(async (data) => {
-    const { success, error } = await getAuthEntity(data.email, data.password);
+    const r = await post('/user', data);
+    const { error, status } = r;
 
-    if (!success) {
+    if (error) {
       resetField('password');
-      setError('afterSubmit', { message: error });
+      let errorMessage;
+
+      if (status === 409) {
+        errorMessage = 'This email address is already taken. Please try another email address.';
+      } else {
+        errorMessage = 'Server error, please try again.';
+      }
+
+      setError('afterSubmit', { message: errorMessage });
       return;
     }
 
-    router.push('/');
-  }, [router, getAuthEntity, resetField, setError]);
+    router.push({
+      pathname: '/login',
+      query: { na: true },
+    });
+  }, [router, resetField, setError]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
-        {!!router.query?.na && !errors.afterSubmit && !isSubmitting && <Alert severity="success">Thanks for registering! You can now login to your account.</Alert>}
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
+
+        <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
+          <RHFTextField name="firstName" label="First name" />
+          <RHFTextField name="lastName" label="Last name" />
+        </Stack>
 
         <RHFTextField name="email" label="Email address" />
 
@@ -66,25 +84,18 @@ export default function LoginForm() {
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                <IconButton edge="end" onClick={() => setShowPassword(!showPassword)}>
                   <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                 </IconButton>
               </InputAdornment>
             ),
           }}
         />
-      </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        {/* <RHFCheckbox name="remember" label="Remember me" /> */}
-        <NextLink href="/reset" passHref>
-          <Link href variant="subtitle2">Forgot password?</Link>
-        </NextLink>
+        <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
+          Register
+        </LoadingButton>
       </Stack>
-
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
-        Login
-      </LoadingButton>
     </FormProvider>
   );
 }
