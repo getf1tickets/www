@@ -34,6 +34,8 @@ const useProvideContext = () => {
     return { success: true };
   }, [setAuthEntity]);
 
+  const clearAuthEntity = useCallback(() => setAuthEntity(null), [setAuthEntity]);
+
   const refreshUserInfo = useCallback(async () => {
     const { error, result } = await get('/user/@me');
 
@@ -49,12 +51,16 @@ const useProvideContext = () => {
   useEffect(() => {
     if (authEntity && authEntity.accessToken) {
       refreshUserInfo();
+    } else {
+      setUser(null);
+      setIsAuthenticated(false);
     }
   }, [authEntity, refreshUserInfo]);
 
   return {
     ...user,
     getAuthEntity,
+    clearAuthEntity,
     isAuthenticated,
   };
 };
