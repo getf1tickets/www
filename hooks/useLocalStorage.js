@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export const retrieveItem = (key, json = true) => {
   const item = window.localStorage.getItem(key);
@@ -14,7 +14,7 @@ function useLocalStorage(key, initialValue) {
     }
   });
 
-  const setValue = (value) => {
+  const setValue = useCallback((value) => {
     try {
       const valueToStore = value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
@@ -23,7 +23,8 @@ function useLocalStorage(key, initialValue) {
     } catch (ignored) {
       // ignore
     }
-  };
+  }, [storedValue, setStoredValue, key]);
+
   return [storedValue, setValue];
 }
 
