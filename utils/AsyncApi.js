@@ -28,7 +28,7 @@ const makeRequest = async (
   if (err) {
     return {
       error: err,
-      status: -1,
+      status: err.response?.status || -1,
       result: null,
     };
   }
@@ -45,28 +45,28 @@ export const get = (
   params,
   headers,
   entity,
-) => makeRequest('GET', url, params, headers, entity);
+) => makeRequest('GET', url, params, null, headers, entity);
 
 export const post = (
   url,
-  params,
+  data,
   headers,
   entity,
-) => makeRequest('POST', url, params, headers, entity);
+) => makeRequest('POST', url, null, data, headers, entity);
 
 export const put = (
   url,
-  params,
+  data,
   headers,
   entity,
-) => makeRequest('PUT', url, params, headers, entity);
+) => makeRequest('PUT', url, null, data, headers, entity);
 
 export const del = (
   url,
-  params,
+  data,
   headers,
   entity,
-) => makeRequest('DELETE', url, params, headers, entity);
+) => makeRequest('DELETE', url, null, data, headers, entity);
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {

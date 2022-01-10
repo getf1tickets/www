@@ -39,7 +39,7 @@ const OnlyLogoStyle = styled('header')(({ theme }) => ({
   },
 }));
 
-export default function Layout({ children, onlyLogo = false }) {
+export default function Layout({ children, onlyLogo = false, noLogo = false }) {
   // const isDesktop = useResponsive('up', 'lg');
   const [open, setOpen] = useState(false);
 
@@ -52,6 +52,10 @@ export default function Layout({ children, onlyLogo = false }) {
         {children}
       </>
     );
+  }
+
+  if (noLogo) {
+    return children;
   }
 
   return (

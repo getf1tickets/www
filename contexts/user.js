@@ -2,8 +2,8 @@ import {
   createContext, useCallback, useEffect, useState,
 } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
-import { LOCAL_STORAGE } from '../utils/config';
-import { get } from '../utils/AsyncApi';
+import { LOCAL_STORAGE, API } from '../utils/config';
+import { get, post } from '../utils/AsyncApi';
 
 export const UserContext = createContext(null);
 
@@ -12,10 +12,32 @@ const useProvideContext = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authEntity, setAuthEntity] = useLocalStorage(LOCAL_STORAGE.AUTH_ENTITY_KEY, null);
 
-  const refreshUserInfo = useCallback(async () => {
-    const { err, result } = await get('/user/@me');
+  const getAuthEntity = useCallback(async (email, password) => {
+    const { error, result, status } = await post('/auth/token', {
+      email,
+      password,
+      client_id: API.AUTH.CLIENT_ID,
+      grant_type: 'password',
+    });
 
-    if (err) {
+    if (error) {
+      setAuthEntity(null);
+
+      if (status === 400) {
+        return { success: false, error: 'Invalid credentials' };
+      }
+
+      return { success: false, error: 'Server error, please try again' };
+    }
+
+    setAuthEntity(result);
+    return { success: true };
+  }, [setAuthEntity]);
+
+  const refreshUserInfo = useCallback(async () => {
+    const { error, result } = await get('/user/@me');
+
+    if (error) {
       setAuthEntity(null);
       return;
     }
@@ -32,6 +54,7 @@ const useProvideContext = () => {
 
   return {
     ...user,
+    getAuthEntity,
     isAuthenticated,
   };
 };

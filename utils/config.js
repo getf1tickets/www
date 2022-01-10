@@ -21,6 +21,9 @@ export const ICON = {
 
 export const API = {
   BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
+  AUTH: {
+    CLIENT_ID: process.env.NEXT_PUBLIC_API_AUTH_CLIENT_ID,
+  },
 };
 
 export const LOCAL_STORAGE = {
