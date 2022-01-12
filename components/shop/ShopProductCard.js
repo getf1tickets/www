@@ -50,7 +50,7 @@ export default function ShopProductCard({ product }) {
               </Typography>
             )}
 
-            <Typography variant="subtitle2">
+            <Typography variant="caption">
               Starting at
               {' '}
               $
