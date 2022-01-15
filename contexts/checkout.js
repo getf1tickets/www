@@ -13,6 +13,7 @@ const useProvideContext = () => {
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
+  const [billingAddressId, setBillingAddressId] = useState(null);
 
   const addProduct = useCallback((product, quantity) => {
     const productIndex = cart.findIndex((p) => p.id === product.id);
@@ -79,12 +80,15 @@ const useProvideContext = () => {
     discount,
     total,
     activeStep,
+    billingAddressId,
     nextActiveStep,
     previousActiveStep,
+    setActiveStep,
     addProduct,
     deleteProduct,
     increaseProductQuantity,
     decreaseProductQuantity,
+    setBillingAddressId,
   };
 };
 

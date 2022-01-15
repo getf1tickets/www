@@ -1,10 +1,8 @@
-/* eslint-disable no-unused-vars */
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import {
   Box, Grid, Card, Button, Typography,
 } from '@mui/material';
 import { v4 } from 'uuid';
-import Label from '../Label';
 import Iconify from '../Iconify';
 import CheckoutSummary from './CheckoutSummary';
 import useCheckout from '../../hooks/useCheckout';
@@ -20,29 +18,35 @@ export default function CheckoutBillingAddress() {
     subtotal,
     previousActiveStep,
     nextActiveStep,
+    setBillingAddressId,
   } = useCheckout();
 
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
+  const handleClickOpen = useCallback(() => {
     setOpen(true);
-  };
+  }, [setOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
-  };
+  }, [setOpen]);
 
-  const handleNextStep = () => {
+  const handleNextStep = useCallback(() => {
     nextActiveStep();
-  };
+  }, [nextActiveStep]);
 
-  const handleBackStep = () => {
+  const handleBackStep = useCallback(() => {
     previousActiveStep();
-  };
+  }, [previousActiveStep]);
 
-  const handleCreateBilling = (value) => {
+  const handleCreateBilling = useCallback((value) => {
     console.log('handleCreateBilling', value);
-  };
+  }, []);
+
+  const handleSelectAddress = useCallback((id) => {
+    setBillingAddressId(id);
+    nextActiveStep();
+  }, [setBillingAddressId, nextActiveStep]);
 
   return (
     <>
@@ -53,7 +57,7 @@ export default function CheckoutBillingAddress() {
               key={v4()}
               address={address}
               onNextStep={handleNextStep}
-              onCreateBilling={handleCreateBilling}
+              onSelectAddress={handleSelectAddress}
             />
           ))}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -86,20 +90,18 @@ export default function CheckoutBillingAddress() {
   );
 }
 
-function AddressItem({ address: addressProps, onNextStep, onCreateBilling }) {
+function AddressItem({
+  address: addressProps,
+  onSelectAddress,
+}) {
   const {
-    fullName, zip, city, country, address, type, phoneNumber,
+    id, fullName, zip, city, country, address, type, phoneNumber,
   } = addressProps;
 
   const fullAddress = useMemo(
     () => `${address}, ${zip}, ${city}, ${country}`,
     [address, zip, city, country],
   );
-
-  const handleCreateBilling = () => {
-    onCreateBilling(address);
-    onNextStep();
-  };
 
   return (
     <Card sx={{ p: 3, mb: 3, position: 'relative' }}>
@@ -131,7 +133,7 @@ function AddressItem({ address: addressProps, onNextStep, onCreateBilling }) {
           Delete
         </Button>
         <Box sx={{ mx: 0.5 }} />
-        <Button variant="outlined" size="small" onClick={handleCreateBilling}>
+        <Button variant="outlined" size="small" onClick={() => onSelectAddress(id)}>
           Deliver to this Address
         </Button>
       </Box>
