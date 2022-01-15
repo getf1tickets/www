@@ -15,7 +15,7 @@ ThemeProvider.propTypes = {
 };
 
 export default function ThemeProvider({ children }) {
-  const [themeMode, themeDirection] = ['light', 'ltr'];
+  const [themeMode, themeDirection] = ['dark', 'ltr'];
   const isLight = themeMode === 'light';
 
   const themeOptions = useMemo(

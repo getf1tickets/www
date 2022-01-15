@@ -1,15 +1,19 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import {
   Box, Grid, Card, Button, Typography,
 } from '@mui/material';
+import { v4 } from 'uuid';
 import Label from '../Label';
 import Iconify from '../Iconify';
 import CheckoutSummary from './CheckoutSummary';
 import useCheckout from '../../hooks/useCheckout';
 import CheckoutNewAddressForm from './CheckoutNewAddressForm';
+import useUser from '../../hooks/useUser';
 
 export default function CheckoutBillingAddress() {
+  const user = useUser();
+
   const {
     total,
     discount,
@@ -44,14 +48,14 @@ export default function CheckoutBillingAddress() {
     <>
       <Grid container spacing={3}>
         <Grid item xs={12} md={8}>
-          {/* {_addressBooks.map((address, index) => (
+          {user.addresses?.map((address) => (
             <AddressItem
-              key={index}
+              key={v4()}
               address={address}
               onNextStep={handleNextStep}
               onCreateBilling={handleCreateBilling}
             />
-          ))} */}
+          ))}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
               size="small"
@@ -82,10 +86,15 @@ export default function CheckoutBillingAddress() {
   );
 }
 
-function AddressItem({ address, onNextStep, onCreateBilling }) {
+function AddressItem({ address: addressProps, onNextStep, onCreateBilling }) {
   const {
-    receiver, fullAddress, addressType, phone, isDefault,
-  } = address;
+    fullName, zip, city, country, address, type, phoneNumber,
+  } = addressProps;
+
+  const fullAddress = useMemo(
+    () => `${address}, ${zip}, ${city}, ${country}`,
+    [address, zip, city, country],
+  );
 
   const handleCreateBilling = () => {
     onCreateBilling(address);
@@ -95,23 +104,18 @@ function AddressItem({ address, onNextStep, onCreateBilling }) {
   return (
     <Card sx={{ p: 3, mb: 3, position: 'relative' }}>
       <Box sx={{ mb: 1, display: 'flex', alignItems: 'center' }}>
-        <Typography variant="subtitle1">{receiver}</Typography>
+        <Typography variant="subtitle1">{fullName}</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           &nbsp;(
-          {addressType}
+          {type}
           )
         </Typography>
-        {isDefault && (
-          <Label color="info" sx={{ ml: 1 }}>
-            Default
-          </Label>
-        )}
       </Box>
       <Typography variant="body2" gutterBottom>
         {fullAddress}
       </Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-        {phone}
+        {phoneNumber}
       </Typography>
 
       <Box
@@ -123,11 +127,9 @@ function AddressItem({ address, onNextStep, onCreateBilling }) {
           bottom: { sm: 24 },
         }}
       >
-        {!isDefault && (
-          <Button variant="outlined" size="small" color="inherit">
-            Delete
-          </Button>
-        )}
+        <Button variant="outlined" size="small" color="inherit">
+          Delete
+        </Button>
         <Box sx={{ mx: 0.5 }} />
         <Button variant="outlined" size="small" onClick={handleCreateBilling}>
           Deliver to this Address
