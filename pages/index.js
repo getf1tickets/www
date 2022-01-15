@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from 'react';
 import { Container, Stack } from '@mui/material';
 import Page from '../components/Page';
 import ShopProductList from '../components/shop/ShopProductList';
+import CartWidget from '../components/CartWidget';
 import { get } from '../utils/AsyncApi';
 
 export default function Tickets() {
@@ -63,7 +64,7 @@ export default function Tickets() {
           loading={loading}
         />
 
-        {/* <CartWidget /> */}
+        <CartWidget />
       </Container>
     </Page>
   );

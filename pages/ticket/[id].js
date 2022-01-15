@@ -12,6 +12,7 @@ import { get } from '../../utils/AsyncApi';
 import ProductDetailsCarousel from '../../components/product/ProductDetailsCarousel';
 import ProductDetailsSummary from '../../components/product/ProductDetailsSummary';
 import Markdown from '../../components/Markdown';
+import CartWidget from '../../components/CartWidget';
 
 const PRODUCT_DESCRIPTION = [
   {
@@ -67,7 +68,7 @@ export default function ProductDetails() {
     <Page title="Ecommerce: Product Details">
       <Container maxWidth="lg">
 
-        {/* <CartWidget /> */}
+        <CartWidget />
 
         {product && (
           <>
