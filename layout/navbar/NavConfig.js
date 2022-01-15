@@ -10,11 +10,6 @@ const navConfig = [
         icon: <Iconify icon="entypo:ticket" />,
       },
       {
-        title: 'calendar',
-        path: '/calendar',
-        icon: <Iconify icon="bi:calendar-date-fill" />,
-      },
-      {
         title: 'checkout',
         path: '/checkout',
         icon: <Iconify icon="ic:round-shopping-cart-checkout" />,
@@ -56,9 +51,9 @@ const navConfig = [
         icon: <Iconify icon="akar-icons:settings-vertical" />,
       },
       {
-        title: 'billings',
-        path: '/billings',
-        icon: <Iconify icon="bi:credit-card-fill" />,
+        title: 'orders',
+        path: '/orders',
+        icon: <Iconify icon="clarity:shopping-cart-solid" />,
       },
     ],
   },
