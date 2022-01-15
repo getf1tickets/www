@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useUser from '../hooks/useUser';
 
@@ -6,7 +7,10 @@ export default function Logout() {
   const router = useRouter();
 
   clearAuthEntity();
-  router.push('/');
 
-  return null;
+  useEffect(() => {
+    if (router) router.push('/');
+  }, [router]);
+
+  return <div />;
 }
