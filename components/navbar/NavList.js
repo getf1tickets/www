@@ -5,7 +5,7 @@ import { NavItemRoot, NavItemSub } from './NavItem';
 
 export function getActive(path, pathname, asPath) {
   return path === '/'
-    ? (path === pathname || path === asPath)
+    ? (path === pathname || path === asPath || pathname.startsWith('/ticket'))
     : pathname.includes(path) || asPath.includes(path);
 }
 
