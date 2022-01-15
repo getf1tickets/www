@@ -48,7 +48,7 @@ export default function LoginForm() {
       return;
     }
 
-    router.push('/');
+    router.push(router.query.redirect || '/');
   }, [router, getAuthEntity, resetField, setError]);
 
   return (

@@ -5,6 +5,8 @@ import {
 import Page from '../components/Page';
 import Iconify from '../components/Iconify';
 import CheckoutCart from '../components/checkout/CheckoutCart';
+import CheckoutBillingAddress from '../components/checkout/CheckoutBillingAddress';
+import useCheckout from '../hooks/useCheckout';
 
 const STEPS = ['Cart', 'Billing & address', 'Payment'];
 
@@ -58,9 +60,7 @@ function QontoStepIcon({ active, completed }) {
 }
 
 export default function EcommerceCheckout() {
-  const { activeStep } = {
-    activeStep: 0,
-  };
+  const { activeStep } = useCheckout();
 
   const isComplete = activeStep === STEPS.length;
 
@@ -92,8 +92,8 @@ export default function EcommerceCheckout() {
         {!isComplete ? (
           <>
             {activeStep === 0 && <CheckoutCart />}
-            {/* {activeStep === 1 && <CheckoutBillingAddress />}
-            {activeStep === 2 && billing && <CheckoutPayment />} */}
+            {activeStep === 1 && <CheckoutBillingAddress />}
+            {/* activeStep === 2 && billing && <CheckoutPayment /> */}
           </>
         ) : (
           // <CheckoutOrderComplete open={isComplete} />

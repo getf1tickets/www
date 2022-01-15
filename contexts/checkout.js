@@ -12,6 +12,7 @@ const useProvideContext = () => {
   const [subtotal, setSubtotal] = useState(0);
   const [discount, setDiscount] = useState(0);
   const [total, setTotal] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
 
   const addProduct = useCallback((product, quantity) => {
     const productIndex = cart.findIndex((p) => p.id === product.id);
@@ -57,6 +58,14 @@ const useProvideContext = () => {
     }
   }, [cart, setCart]);
 
+  const nextActiveStep = useCallback(() => {
+    setActiveStep(((activeStep + 1) % 3));
+  }, [activeStep, setActiveStep]);
+
+  const previousActiveStep = useCallback(() => {
+    setActiveStep(((activeStep - 1) % 3));
+  }, [activeStep, setActiveStep]);
+
   useEffect(() => {
     const sub = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     setSubtotal(sub);
@@ -69,6 +78,9 @@ const useProvideContext = () => {
     subtotal,
     discount,
     total,
+    activeStep,
+    nextActiveStep,
+    previousActiveStep,
     addProduct,
     deleteProduct,
     increaseProductQuantity,

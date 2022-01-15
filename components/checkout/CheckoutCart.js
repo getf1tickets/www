@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import sum from 'lodash/sum';
+import { useCallback } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Grid, Card, Button, CardHeader, Typography,
 } from '@mui/material';
@@ -11,8 +13,12 @@ import EmptyContent from './CheckoutEmpty';
 import useCheckout from '../../hooks/useCheckout';
 import CheckoutProductList from './CheckoutProductList';
 import CheckoutSummary from './CheckoutSummary';
+import useUser from '../../hooks/useUser';
 
 export default function CheckoutCart() {
+  const router = useRouter();
+  const { isAuthenticated } = useUser();
+
   const {
     cart,
     increaseProductQuantity,
@@ -21,31 +27,39 @@ export default function CheckoutCart() {
     subtotal,
     discount,
     total,
+    nextActiveStep,
   } = useCheckout();
 
   const totalItems = sum(cart.map((item) => item.quantity));
 
   const isEmptyCart = cart.length === 0;
 
-  const handleDeleteCart = (productId) => {
+  const handleDeleteCart = useCallback((productId) => {
     deleteProduct(productId);
-  };
+  }, [deleteProduct]);
 
-  const handleNextStep = () => {
-    console.log('handleNextStep');
-  };
+  const handleNextStep = useCallback(() => {
+    if (!isAuthenticated) {
+      router.push({
+        pathname: '/login',
+        query: { redirect: '/checkout' },
+      });
+    } else {
+      nextActiveStep();
+    }
+  }, [isAuthenticated, router, nextActiveStep]);
 
-  const handleIncreaseQuantity = (productId) => {
+  const handleIncreaseQuantity = useCallback((productId) => {
     increaseProductQuantity(productId);
-  };
+  }, [increaseProductQuantity]);
 
-  const handleDecreaseQuantity = (productId) => {
+  const handleDecreaseQuantity = useCallback((productId) => {
     decreaseProductQuantity(productId);
-  };
+  }, [decreaseProductQuantity]);
 
-  const handleApplyDiscount = (value) => {
+  const handleApplyDiscount = useCallback((value) => {
     console.log('handleApplyDiscount', value);
-  };
+  }, []);
 
   return (
     <Grid container spacing={3}>
