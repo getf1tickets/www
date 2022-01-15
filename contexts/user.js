@@ -3,7 +3,7 @@ import {
 } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
 import { LOCAL_STORAGE, API } from '../utils/config';
-import { get, post } from '../utils/AsyncApi';
+import { get, post, del } from '../utils/AsyncApi';
 
 export const UserContext = createContext(null);
 
@@ -48,6 +48,34 @@ const useProvideContext = () => {
     setIsAuthenticated(true);
   }, [setAuthEntity]);
 
+  const addAddress = useCallback(async (address) => {
+    const { error, result } = await post('/user/@me/address', address);
+
+    if (error) {
+      // todo;
+      return;
+    }
+
+    setUser((oldValue) => {
+      const newValue = { ...oldValue };
+      newValue.addresses.push(result);
+      return newValue;
+    });
+  }, [setUser]);
+
+  const deleteAddress = useCallback((addressId) => {
+    const addressIndex = user.addresses?.findIndex((address) => address.id === addressId);
+    if (addressIndex !== -1) {
+      setUser((oldValue) => {
+        const newValue = { ...oldValue };
+        newValue.addresses.splice(addressIndex, 1);
+        return newValue;
+      });
+      del(`/user/@me/address/${addressId}`)
+        .catch(() => null);
+    }
+  }, [user, setUser]);
+
   useEffect(() => {
     if (authEntity && authEntity.accessToken) {
       refreshUserInfo();
@@ -59,9 +87,11 @@ const useProvideContext = () => {
 
   return {
     ...user,
+    isAuthenticated,
     getAuthEntity,
     clearAuthEntity,
-    isAuthenticated,
+    addAddress,
+    deleteAddress,
   };
 };
 

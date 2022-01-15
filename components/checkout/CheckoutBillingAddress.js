@@ -58,6 +58,7 @@ export default function CheckoutBillingAddress() {
               address={address}
               onNextStep={handleNextStep}
               onSelectAddress={handleSelectAddress}
+              onDeleteAddress={user.deleteAddress}
             />
           ))}
           <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -93,6 +94,7 @@ export default function CheckoutBillingAddress() {
 function AddressItem({
   address: addressProps,
   onSelectAddress,
+  onDeleteAddress,
 }) {
   const {
     id, fullName, zip, city, country, address, type, phoneNumber,
@@ -129,12 +131,12 @@ function AddressItem({
           bottom: { sm: 24 },
         }}
       >
-        <Button variant="outlined" size="small" color="inherit">
+        <Button variant="outlined" size="small" color="inherit" onClick={() => onDeleteAddress(id)}>
           Delete
         </Button>
         <Box sx={{ mx: 0.5 }} />
         <Button variant="outlined" size="small" onClick={() => onSelectAddress(id)}>
-          Deliver to this Address
+          Use this billing Address
         </Button>
       </Box>
     </Card>

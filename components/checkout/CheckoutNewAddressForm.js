@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -8,27 +9,30 @@ import { LoadingButton } from '@mui/lab';
 import {
   FormProvider, RHFSelect, RHFTextField, RHFRadioGroup,
 } from '../form';
+import useUser from '../../hooks/useUser';
 
 export default function CheckoutNewAddressForm({
   open, onClose,
 }) {
+  const { addAddress } = useUser();
+
   const NewAddressSchema = Yup.object().shape({
-    receiver: Yup.string().required('Fullname is required'),
-    phone: Yup.string().required('Phone is required'),
+    fullName: Yup.string().required('Fullname is required'),
+    phoneNumber: Yup.string().required('Phone is required'),
     address: Yup.string().required('Address is required'),
     city: Yup.string().required('City is required'),
-    state: Yup.string().required('State is required'),
+    zip: Yup.string().required('Zip is required'),
   });
 
   const defaultValues = {
-    addressType: 'Home',
-    receiver: '',
-    phone: '',
+    type: 'Home',
+    fullName: '',
+    phoneNumber: '',
     address: '',
     city: '',
     state: '',
     country: 'France',
-    zipcode: '',
+    zip: '',
   };
 
   const methods = useForm({
@@ -39,11 +43,14 @@ export default function CheckoutNewAddressForm({
   const {
     handleSubmit,
     formState: { isSubmitting },
+    reset,
   } = methods;
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(async (data) => {
+    await addAddress({ ...data, type: `${data.type}`.toLocaleLowerCase() });
+    reset();
+    onClose();
+  }, [addAddress, onClose, reset]);
 
   return (
     <Dialog fullWidth maxWidth="sm" open={open} onClose={onClose}>
@@ -52,7 +59,7 @@ export default function CheckoutNewAddressForm({
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           <Stack spacing={3}>
-            <RHFRadioGroup name="addressType" options={['Home', 'Office']} />
+            <RHFRadioGroup name="type" options={['Home', 'Office']} />
 
             <Box
               sx={{
@@ -62,8 +69,8 @@ export default function CheckoutNewAddressForm({
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
               }}
             >
-              <RHFTextField name="receiver" label="Full Name" />
-              <RHFTextField name="phone" label="Phone Number" />
+              <RHFTextField name="fullName" label="Full Name" />
+              <RHFTextField name="phoneNumber" label="Phone Number" />
             </Box>
 
             <RHFTextField name="address" label="Address" />
@@ -78,7 +85,7 @@ export default function CheckoutNewAddressForm({
             >
               <RHFTextField name="city" label="Town / City" />
               <RHFTextField name="state" label="State" />
-              <RHFTextField name="zipcode" label="Zip / Postal Code" />
+              <RHFTextField name="zip" label="Zip / Postal Code" />
             </Box>
 
             <RHFSelect name="country" label="Country">
@@ -98,7 +105,7 @@ export default function CheckoutNewAddressForm({
 
         <DialogActions>
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-            Deliver to this Address
+            Add this billing address
           </LoadingButton>
           <Button color="inherit" variant="outlined" onClick={onClose}>
             Cancel
