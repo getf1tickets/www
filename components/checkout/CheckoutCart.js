@@ -8,28 +8,27 @@ import {
 import Iconify from '../Iconify';
 import Scrollbar from '../Scrollbar';
 import EmptyContent from './CheckoutEmpty';
-//
-// import CheckoutSummary from './CheckoutSummary';
-// import CheckoutProductList from './CheckoutProductList';
-
-// ----------------------------------------------------------------------
+import useCheckout from '../../hooks/useCheckout';
+import CheckoutProductList from './CheckoutProductList';
+import CheckoutSummary from './CheckoutSummary';
 
 export default function CheckoutCart() {
   const {
-    cart, total, discount, subtotal,
-  } = {
-    cart: [],
-    total: 0,
-    discount: null,
-    subtotal: 0,
-  };
+    cart,
+    increaseProductQuantity,
+    decreaseProductQuantity,
+    deleteProduct,
+    subtotal,
+    discount,
+    total,
+  } = useCheckout();
 
   const totalItems = sum(cart.map((item) => item.quantity));
 
   const isEmptyCart = cart.length === 0;
 
   const handleDeleteCart = (productId) => {
-    console.log('HandleDeleteCart', productId);
+    deleteProduct(productId);
   };
 
   const handleNextStep = () => {
@@ -37,11 +36,11 @@ export default function CheckoutCart() {
   };
 
   const handleIncreaseQuantity = (productId) => {
-    console.log('handleIncreaseQuantity', productId);
+    increaseProductQuantity(productId);
   };
 
   const handleDecreaseQuantity = (productId) => {
-    console.log('handleDecreaseQuantity', productId);
+    decreaseProductQuantity(productId);
   };
 
   const handleApplyDiscount = (value) => {
@@ -69,12 +68,12 @@ export default function CheckoutCart() {
 
           {!isEmptyCart ? (
             <Scrollbar>
-              {/* <CheckoutProductList
+              <CheckoutProductList
                 products={cart}
                 onDelete={handleDeleteCart}
                 onIncreaseQuantity={handleIncreaseQuantity}
                 onDecreaseQuantity={handleDecreaseQuantity}
-              /> */}
+              />
             </Scrollbar>
           ) : (
             <EmptyContent
@@ -93,13 +92,13 @@ export default function CheckoutCart() {
       </Grid>
 
       <Grid item xs={12} md={4}>
-        {/* <CheckoutSummary
+        <CheckoutSummary
           enableDiscount
           total={total}
           discount={discount}
           subtotal={subtotal}
           onApplyDiscount={handleApplyDiscount}
-        /> */}
+        />
         <Button
           fullWidth
           size="large"

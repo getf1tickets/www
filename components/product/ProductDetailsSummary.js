@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import Iconify from '../Iconify';
 import { FormProvider } from '../form';
+import useCheckout from '../../hooks/useCheckout';
 
 const RootStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(3),
@@ -21,7 +22,10 @@ export default function ProductDetailsSummary({
     name,
     price,
     available,
+    cover,
   } = product;
+
+  const checkout = useCheckout();
 
   const isMaxQuantity = false;
 
@@ -30,6 +34,7 @@ export default function ProductDetailsSummary({
     name,
     available,
     price,
+    cover,
     quantity: available < 1 ? 0 : 1,
   };
 
@@ -48,7 +53,7 @@ export default function ProductDetailsSummary({
   };
 
   const handleAddCart = async () => {
-    console.log(values);
+    checkout.addProduct(values, values.quantity);
   };
 
   return (

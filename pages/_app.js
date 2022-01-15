@@ -2,6 +2,7 @@ import Head from 'next/head';
 import ThemeProvider from '../theme';
 import Layout from '../layout';
 import UserProvider from '../contexts/user';
+import CheckoutProvider from '../contexts/checkout';
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'simplebar/dist/simplebar.min.css';
@@ -25,12 +26,14 @@ function MyApp({ Component, pageProps }) {
 
       <ThemeProvider>
         <UserProvider>
-          {getLayout && getLayout(<Component {...pageProps} />)}
-          {!getLayout && (
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-          )}
+          <CheckoutProvider>
+            {getLayout && getLayout(<Component {...pageProps} />)}
+            {!getLayout && (
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+            )}
+          </CheckoutProvider>
         </UserProvider>
       </ThemeProvider>
     </>
