@@ -65,7 +65,7 @@ export default function CheckoutPayment() {
   } = methods;
 
   const onSubmit = useCallback(async () => {
-    const { error, result } = await post('/order', {
+    const order = await post('/order', {
       products: cart.map((product) => ({
         id: product.id,
         quantity: product.quantity,
@@ -73,9 +73,20 @@ export default function CheckoutPayment() {
       addressId: billingAddressId,
     });
 
-    if (error) {
+    if (order.error) {
       // todo
     }
+
+    const payment = await post('/payment', {
+      orderId: order.result.id,
+      method: 'paypal',
+    });
+
+    if (payment.error) {
+      // todo
+    }
+
+    window.open(payment.result.url, '_self');
   }, [cart, billingAddressId]);
 
   return (
