@@ -16,7 +16,7 @@ const useProvideContext = () => {
   const [total, setTotal] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [billingAddressId, setBillingAddressId] = useState(null);
-  const [cartCache, setCartCache] = useLocalStorage(LOCAL_STORAGE.CHECKOUT_KEY);
+  const [cartCache, setCartCache] = useLocalStorage(LOCAL_STORAGE.CHECKOUT_KEY, []);
 
   const addProduct = useCallback((product, quantity) => {
     const productIndex = cart.findIndex((p) => p.id === product.id);
@@ -28,6 +28,10 @@ const useProvideContext = () => {
       setCartCache(newCart);
     }
   }, [cart, setCartCache]);
+
+  const setProduct = useCallback((product, quantity) => {
+    setCartCache([{ ...product, quantity }]);
+  }, [setCartCache]);
 
   const deleteProduct = useCallback((productId) => {
     const productIndex = cart.findIndex((p) => p.id === productId);
@@ -93,6 +97,7 @@ const useProvideContext = () => {
     previousActiveStep,
     setActiveStep,
     addProduct,
+    setProduct,
     deleteProduct,
     increaseProductQuantity,
     decreaseProductQuantity,

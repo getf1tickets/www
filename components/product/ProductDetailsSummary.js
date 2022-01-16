@@ -3,6 +3,8 @@ import { styled } from '@mui/material/styles';
 import {
   Box, Stack, Button, Divider, IconButton, Typography,
 } from '@mui/material';
+import { useRouter } from 'next/router';
+import { useCallback } from 'react';
 import Iconify from '../Iconify';
 import { FormProvider } from '../form';
 import useCheckout from '../../hooks/useCheckout';
@@ -17,6 +19,8 @@ const RootStyle = styled('div')(({ theme }) => ({
 export default function ProductDetailsSummary({
   product, onGotoStep, ...other
 }) {
+  const { push } = useRouter();
+
   const {
     id,
     name,
@@ -48,13 +52,15 @@ export default function ProductDetailsSummary({
 
   const values = watch();
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
+  const onSubmit = useCallback(async (data) => {
+    checkout.setProduct(data, data.quantity);
+    checkout.setActiveStep(0);
+    push('/checkout');
+  }, [checkout, push]);
 
-  const handleAddCart = async () => {
+  const handleAddCart = useCallback(async () => {
     checkout.addProduct(values, values.quantity);
-  };
+  }, [checkout]);
 
   return (
     <RootStyle {...other}>

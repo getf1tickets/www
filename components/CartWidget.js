@@ -2,6 +2,7 @@ import sum from 'lodash/sum';
 import NextLink from 'next/link';
 import { styled } from '@mui/material/styles';
 import { Badge } from '@mui/material';
+import { useMemo } from 'react';
 import Iconify from './Iconify';
 import useCheckout from '../hooks/useCheckout';
 
@@ -28,7 +29,7 @@ const RootStyle = styled('div')(({ theme }) => ({
 
 export default function CartWidget() {
   const { cart } = useCheckout();
-  const totalItems = sum(cart.map((item) => item.quantity));
+  const totalItems = useMemo(() => sum(cart?.map((item) => item.quantity)), [cart]);
 
   return (
     <NextLink href="/checkout">
