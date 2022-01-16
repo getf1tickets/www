@@ -11,6 +11,7 @@ import CheckoutSummary from './CheckoutSummary';
 import useCheckout from '../../hooks/useCheckout';
 import CheckoutBillingInfo from './CheckoutBillingInfo';
 import CheckoutPaymentMethods from './CheckoutPaymentMethods';
+import { post } from '../../utils/AsyncApi';
 
 const PAYMENT_OPTIONS = [
   {
@@ -29,6 +30,8 @@ export default function CheckoutPayment() {
     previousActiveStep,
     nextActiveStep,
     setActiveStep,
+    cart,
+    billingAddressId,
   } = useCheckout();
 
   const handleNextStep = useCallback(() => {
@@ -62,8 +65,18 @@ export default function CheckoutPayment() {
   } = methods;
 
   const onSubmit = useCallback(async () => {
-    console.log('onSubmit');
-  }, []);
+    const { error, result } = await post('/order', {
+      products: cart.map((product) => ({
+        id: product.id,
+        quantity: product.quantity,
+      })),
+      addressId: billingAddressId,
+    });
+
+    if (error) {
+      // todo
+    }
+  }, [cart, billingAddressId]);
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
