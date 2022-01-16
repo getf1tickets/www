@@ -62,6 +62,15 @@ const useProvideContext = () => {
     setActiveStep(((activeStep - 1) % 3));
   }, [activeStep, setActiveStep]);
 
+  const reset = useCallback(() => {
+    setCart([]);
+    setSubtotal(0);
+    setDiscount(0);
+    setTotal(0);
+    setActiveStep(0);
+    setBillingAddressId(null);
+  }, [setCart, setSubtotal, setDiscount, setTotal, setActiveStep, setBillingAddressId]);
+
   useEffect(() => {
     const sub = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
     setSubtotal(sub);
@@ -88,6 +97,7 @@ const useProvideContext = () => {
     increaseProductQuantity,
     decreaseProductQuantity,
     setBillingAddressId,
+    reset,
   };
 };
 
