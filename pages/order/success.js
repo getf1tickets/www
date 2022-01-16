@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import {
   Box, Button, Divider, Typography, Stack, Container,
 } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useCheckout from '../../hooks/useCheckout';
 import Iconify from '../../components/Iconify';
@@ -35,6 +35,10 @@ export default function CheckoutOrderComplete() {
     reset();
     push('/');
   }, [push, reset]);
+
+  useEffect(() => {
+    reset();
+  }, [reset]);
 
   return (
     <Page title="Thanks you">
