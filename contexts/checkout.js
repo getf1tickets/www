@@ -4,6 +4,8 @@ import {
   useCallback,
   useEffect,
 } from 'react';
+import useLocalStorage from '../hooks/useLocalStorage';
+import { LOCAL_STORAGE } from '../utils/config';
 
 export const CheckoutContext = createContext(null);
 
@@ -14,50 +16,43 @@ const useProvideContext = () => {
   const [total, setTotal] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
   const [billingAddressId, setBillingAddressId] = useState(null);
+  const [cartCache, setCartCache] = useLocalStorage(LOCAL_STORAGE.CHECKOUT_KEY);
 
   const addProduct = useCallback((product, quantity) => {
     const productIndex = cart.findIndex((p) => p.id === product.id);
     if (productIndex === -1) {
-      setCart([...cart, { ...product, quantity }]);
+      setCartCache([...cart, { ...product, quantity }]);
     } else {
-      setCart((oldArray) => {
-        const newArray = [...oldArray];
-        newArray[productIndex].quantity += quantity;
-        return newArray;
-      });
+      const newCart = [...cart];
+      newCart[productIndex].quantity += quantity;
+      setCartCache(newCart);
     }
-  }, [cart, setCart]);
+  }, [cart, setCartCache]);
 
   const deleteProduct = useCallback((productId) => {
     const productIndex = cart.findIndex((p) => p.id === productId);
-    setCart((oldArray) => {
-      const newArray = [...oldArray];
-      newArray.splice(productIndex, 1);
-      return newArray;
-    });
-  }, [cart, setCart]);
+    const newCart = [...cart];
+    newCart.splice(productIndex, 1);
+    setCartCache(newCart);
+  }, [cart, setCartCache]);
 
   const increaseProductQuantity = useCallback((productId) => {
     const productIndex = cart.findIndex((p) => p.id === productId);
     if (productIndex !== -1) {
-      setCart((oldArray) => {
-        const newArray = [...oldArray];
-        newArray[productIndex].quantity += 1;
-        return newArray;
-      });
+      const newCart = [...cart];
+      newCart[productIndex].quantity += 1;
+      setCartCache(newCart);
     }
-  }, [cart, setCart]);
+  }, [cart, setCartCache]);
 
   const decreaseProductQuantity = useCallback((productId) => {
     const productIndex = cart.findIndex((p) => p.id === productId);
     if (productIndex !== -1) {
-      setCart((oldArray) => {
-        const newArray = [...oldArray];
-        newArray[productIndex].quantity -= 1;
-        return newArray;
-      });
+      const newCart = [...cart];
+      newCart[productIndex].quantity -= 1;
+      setCartCache(newCart);
     }
-  }, [cart, setCart]);
+  }, [cart, setCartCache]);
 
   const nextActiveStep = useCallback(() => {
     setActiveStep(((activeStep + 1) % 3));
@@ -73,6 +68,10 @@ const useProvideContext = () => {
     setDiscount(0);
     setTotal(sub);
   }, [cart, setTotal, setSubtotal, setDiscount]);
+
+  useEffect(() => {
+    setCart(cartCache);
+  }, [cartCache, setCart]);
 
   return {
     cart,

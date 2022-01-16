@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import sum from 'lodash/sum';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import {
@@ -30,7 +30,7 @@ export default function CheckoutCart() {
     nextActiveStep,
   } = useCheckout();
 
-  const totalItems = sum(cart.map((item) => item.quantity));
+  const totalItems = useMemo(() => sum(cart.map((item) => item.quantity)), [cart]);
 
   const isEmptyCart = cart.length === 0;
 

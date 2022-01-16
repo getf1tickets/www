@@ -28,4 +28,5 @@ export const API = {
 
 export const LOCAL_STORAGE = {
   AUTH_ENTITY_KEY: 'auth_entity',
+  CHECKOUT_KEY: 'checkout',
 };
