@@ -41,18 +41,13 @@ const navConfig = [
     },
     items: [
       {
-        title: 'profile',
-        path: '/profile',
-        icon: <Iconify icon="ri:profile-fill" />,
-      },
-      {
         title: 'settings',
-        path: '/settings',
+        path: '/account/settings',
         icon: <Iconify icon="akar-icons:settings-vertical" />,
       },
       {
         title: 'orders',
-        path: '/orders',
+        path: '/account/orders',
         icon: <Iconify icon="clarity:shopping-cart-solid" />,
       },
     ],
