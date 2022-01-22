@@ -40,13 +40,6 @@ export default function ProductMoreMenu({ orderId }) {
             Download
           </MenuItem>
         </NextLink>
-
-        <NextLink href={`/order/${orderId}`}>
-          <MenuItem sx={{ borderRadius: 1, typography: 'body2' }}>
-            <Iconify icon="clarity:details-solid" sx={{ mr: 2, width: 24, height: 24 }} />
-            Open
-          </MenuItem>
-        </NextLink>
       </MenuPopover>
     </>
   );
