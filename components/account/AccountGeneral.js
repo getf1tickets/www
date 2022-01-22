@@ -10,6 +10,7 @@ import useUser from '../../hooks/useUser';
 import {
   FormProvider, RHFSelect, RHFTextField,
 } from '../form';
+import { post } from '../../utils/AsyncApi';
 
 export default function AccountGeneral() {
   const { email, info } = useUser();
@@ -26,7 +27,7 @@ export default function AccountGeneral() {
     address: info?.address || '',
     state: info?.state || '',
     city: info?.city || '',
-    zipCode: info?.zipCode || '',
+    zip: info?.zip || '',
   }), [email, info]);
 
   const methods = useForm({
@@ -48,11 +49,17 @@ export default function AccountGeneral() {
     setValue('address', info?.address || '');
     setValue('state', info?.state || '');
     setValue('city', info?.city || '');
-    setValue('zipCode', info?.zipCode || '');
+    setValue('zip', info?.zip || '');
   }, [setValue, info, email]);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const { error } = await post('/user/@me', {
+      info: { ...data, email: undefined },
+    });
+
+    if (error) {
+      // todo;
+    }
   };
 
   return (
@@ -87,7 +94,7 @@ export default function AccountGeneral() {
           <RHFTextField name="state" label="State/Region" />
 
           <RHFTextField name="city" label="City" />
-          <RHFTextField name="zipCode" label="Zip/Code" />
+          <RHFTextField name="zip" label="Zip/Code" />
         </Box>
 
         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
