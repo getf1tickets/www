@@ -2,6 +2,7 @@ import NextLink from 'next/link';
 import { styled } from '@mui/material/styles';
 import { Box, Link, Typography } from '@mui/material';
 import Avatar from '../../components/Avatar';
+import useUser from '../../hooks/useUser';
 
 const RootStyle = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -15,14 +16,11 @@ const RootStyle = styled('div')(({ theme }) => ({
 }));
 
 export default function NavbarAccount() {
-  const user = {
-    displayName: 'Maxime',
-    role: 'account',
-  };
+  const user = useUser();
 
   return (
-    <NextLink href="/" passHref>
-      <Link href="/" underline="none" color="inherit">
+    <NextLink href="/account/settings" passHref>
+      <Link href underline="none" color="inherit">
         <RootStyle>
           <Avatar color="default" />
 
@@ -35,11 +33,11 @@ export default function NavbarAccount() {
             }}
           >
             <Typography variant="subtitle2" noWrap>
-              {user?.displayName}
+              {user?.info?.name}
             </Typography>
-            <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
+            {/* <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
               {user?.role}
-            </Typography>
+            </Typography> */}
           </Box>
         </RootStyle>
       </Link>
