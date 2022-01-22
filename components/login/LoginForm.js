@@ -57,12 +57,13 @@ export default function LoginForm() {
         {!!router.query?.na && !errors.afterSubmit && !isSubmitting && <Alert severity="success">Thanks for registering! You can now login to your account.</Alert>}
         {!!errors.afterSubmit && <Alert severity="error">{errors.afterSubmit.message}</Alert>}
 
-        <RHFTextField name="email" label="Email address" />
+        <RHFTextField name="email" label="Email address" autoComplete="email" />
 
         <RHFTextField
           name="password"
           label="Password"
           type={showPassword ? 'text' : 'password'}
+          autoComplete="current-password"
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

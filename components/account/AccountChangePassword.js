@@ -41,11 +41,11 @@ export default function AccountChangePassword() {
           </Typography>
         </Stack>
         <Stack spacing={3} alignItems="flex-end">
-          <RHFTextField name="oldPassword" type="password" label="Old Password" />
+          <RHFTextField name="oldPassword" type="password" label="Old Password" autoComplete="current-password" />
 
-          <RHFTextField name="newPassword" type="password" label="New Password" />
+          <RHFTextField name="newPassword" type="password" label="New Password" autoComplete="new-password" />
 
-          <RHFTextField name="confirmNewPassword" type="password" label="Confirm New Password" />
+          <RHFTextField name="confirmNewPassword" type="password" label="Confirm New Password" autoComplete="new-password" />
 
           <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
             Save Changes
