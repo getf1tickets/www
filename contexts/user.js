@@ -88,6 +88,22 @@ const useProvideContext = () => {
     }
   }, [user, setUser, notification]);
 
+  const setInfo = useCallback(async (data) => {
+    const { error } = await post('/user/@me', {
+      info: { ...data, email: undefined },
+    });
+
+    if (error) {
+      notification.error('An error occurred while changing your settings');
+      return;
+    }
+
+    setUser((oldUser) => {
+      setUser({ ...oldUser, info: data });
+    });
+    notification.success('User settings changed');
+  }, [setUser, notification]);
+
   useEffect(() => {
     if (authEntity && authEntity.accessToken) {
       refreshUserInfo();
@@ -104,6 +120,7 @@ const useProvideContext = () => {
     clearAuthEntity,
     addAddress,
     deleteAddress,
+    setInfo,
   };
 };
 

@@ -10,12 +10,9 @@ import useUser from '../../hooks/useUser';
 import {
   FormProvider, RHFSelect, RHFTextField,
 } from '../form';
-import { post } from '../../utils/AsyncApi';
-import useNotification from '../../hooks/useNotification';
 
 export default function AccountGeneral() {
-  const { email, info } = useUser();
-  const notification = useNotification();
+  const { email, info, setInfo } = useUser();
 
   const UpdateUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -55,16 +52,7 @@ export default function AccountGeneral() {
   }, [setValue, info, email]);
 
   const onSubmit = async (data) => {
-    const { error } = await post('/user/@me', {
-      info: { ...data, email: undefined },
-    });
-
-    if (error) {
-      notification.error('An error occurred while changing your settings');
-      return;
-    }
-
-    notification.success('User settings changed');
+    await setInfo(data);
   };
 
   return (
