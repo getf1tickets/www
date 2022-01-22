@@ -5,23 +5,26 @@ import ShopProductList from '../components/shop/ShopProductList';
 import CartWidget from '../components/CartWidget';
 import { get } from '../utils/AsyncApi';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
+import useNotification from '../hooks/useNotification';
 
 export default function Tickets() {
+  const notification = useNotification();
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
     const { error, result } = await get('/product');
-    setLoading(false);
 
     if (error) {
-      // todo;
+      notification.error('An error occurred while fetching tickets, please try again');
       return;
     }
 
+    setLoading(false);
     setProducts(result);
-  }, [setProducts, setLoading]);
+  }, [setProducts, setLoading]); // do not include notification dependency here
 
   useEffect(() => {
     fetchProducts();

@@ -4,10 +4,13 @@ import {
 import useLocalStorage from '../hooks/useLocalStorage';
 import { LOCAL_STORAGE, API } from '../utils/config';
 import { get, post, del } from '../utils/AsyncApi';
+import useNotification from '../hooks/useNotification';
 
 export const UserContext = createContext(null);
 
 const useProvideContext = () => {
+  const notification = useNotification();
+
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authEntity, setAuthEntity] = useLocalStorage(LOCAL_STORAGE.AUTH_ENTITY_KEY, null);
@@ -37,22 +40,27 @@ const useProvideContext = () => {
   const clearAuthEntity = useCallback(() => setAuthEntity(null), [setAuthEntity]);
 
   const refreshUserInfo = useCallback(async () => {
-    const { error, result } = await get('/user/@me');
+    const { error, status, result } = await get('/user/@me');
 
     if (error) {
-      setAuthEntity(null);
+      notification.error('An error occurred while refreshing your data, please try again.');
+
+      if (status !== -1 && status !== 500) {
+        setAuthEntity(null);
+      }
+
       return;
     }
 
     setUser(result);
     setIsAuthenticated(true);
-  }, [setAuthEntity]);
+  }, [setAuthEntity]); // do not include notification dependency here
 
   const addAddress = useCallback(async (address) => {
     const { error, result } = await post('/user/@me/address', address);
 
     if (error) {
-      // todo;
+      notification.error('An error occurred while adding your address, please try again');
       return;
     }
 
@@ -61,7 +69,7 @@ const useProvideContext = () => {
       newValue.addresses.push(result);
       return newValue;
     });
-  }, [setUser]);
+  }, [setUser, notification]);
 
   const deleteAddress = useCallback((addressId) => {
     const addressIndex = user.addresses?.findIndex((address) => address.id === addressId);
@@ -72,9 +80,13 @@ const useProvideContext = () => {
         return newValue;
       });
       del(`/user/@me/address/${addressId}`)
-        .catch(() => null);
+        .then(({ error }) => {
+          if (error) {
+            notification.error('An error occurred while deleting your address, please try again');
+          }
+        });
     }
-  }, [user, setUser]);
+  }, [user, setUser, notification]);
 
   useEffect(() => {
     if (authEntity && authEntity.accessToken) {

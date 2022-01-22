@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { SnackbarProvider } from 'notistack';
 import ThemeProvider from '../theme';
 import Layout from '../layout';
 import UserProvider from '../contexts/user';
@@ -25,16 +26,18 @@ function MyApp({ Component, pageProps }) {
       </Head>
 
       <ThemeProvider>
-        <UserProvider>
-          <CheckoutProvider>
-            {getLayout && getLayout(<Component {...pageProps} />)}
-            {!getLayout && (
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-            )}
-          </CheckoutProvider>
-        </UserProvider>
+        <SnackbarProvider>
+          <UserProvider>
+            <CheckoutProvider>
+              {getLayout && getLayout(<Component {...pageProps} />)}
+              {!getLayout && (
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+              )}
+            </CheckoutProvider>
+          </UserProvider>
+        </SnackbarProvider>
       </ThemeProvider>
     </>
   );

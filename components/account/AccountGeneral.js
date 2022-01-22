@@ -11,9 +11,11 @@ import {
   FormProvider, RHFSelect, RHFTextField,
 } from '../form';
 import { post } from '../../utils/AsyncApi';
+import useNotification from '../../hooks/useNotification';
 
 export default function AccountGeneral() {
   const { email, info } = useUser();
+  const notification = useNotification();
 
   const UpdateUserSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
@@ -58,8 +60,11 @@ export default function AccountGeneral() {
     });
 
     if (error) {
-      // todo;
+      notification.error('An error occurred while changing your settings');
+      return;
     }
+
+    notification.success('User settings changed');
   };
 
   return (
