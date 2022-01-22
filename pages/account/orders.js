@@ -23,6 +23,7 @@ import OrderListHead from '../../components/account/orders/OrderListHead';
 import OrderMoreMenu from '../../components/account/orders/OrderMoreMenu';
 import OrderNotFound from '../../components/account/orders/OrderNotFound';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import SkeletonOrderItem from '../../components/skeleton/SkeletonOrderItem';
 import Iconify from '../../components/Iconify';
 
 const TABLE_HEAD = [
@@ -37,10 +38,9 @@ export default function EcommerceProductList() {
   const theme = useTheme();
 
   const [products, setProducts] = useState([]);
-
   const [page, setPage] = useState(0);
-
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [loading, setLoading] = useState(true);
 
   const handleChangeRowsPerPage = useCallback((event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
@@ -48,6 +48,7 @@ export default function EcommerceProductList() {
   }, [setRowsPerPage, setPage]);
 
   const fetchOrders = useCallback(async () => {
+    setLoading(true);
     const { error, result } = await get('/user/@me/orders');
 
     if (error) {
@@ -55,6 +56,7 @@ export default function EcommerceProductList() {
       return;
     }
 
+    setLoading(false);
     setProducts(result);
   }, [setProducts]);
 
@@ -111,8 +113,8 @@ export default function EcommerceProductList() {
                             <Label
                               variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                               color={
-                              (['created', 'cancelled'].includes(status) && 'error')
-                              || (status === 'waiting_payment' && 'warning')
+                              (status === 'cancelled' && 'error')
+                              || (['waiting_payment', 'created'].includes(status) && 'warning')
                               || 'success'
                             }
                             >
@@ -135,7 +137,16 @@ export default function EcommerceProductList() {
                   )}
                 </TableBody>
 
-                {isNotFound && (
+                {loading && (
+                  <TableBody>
+                    <SkeletonOrderItem />
+                    <SkeletonOrderItem />
+                    <SkeletonOrderItem />
+                    <SkeletonOrderItem />
+                  </TableBody>
+                )}
+
+                {isNotFound && !loading && (
                   <TableBody>
                     <TableRow>
                       <TableCell align="center" colSpan={6}>
