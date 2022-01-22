@@ -8,6 +8,7 @@ import CheckoutCart from '../components/checkout/CheckoutCart';
 import CheckoutBillingAddress from '../components/checkout/CheckoutBillingAddress';
 import CheckoutPayment from '../components/checkout/CheckoutPayment';
 import useCheckout from '../hooks/useCheckout';
+import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 
 const STEPS = ['Cart', 'Billing & address', 'Payment'];
 
@@ -69,6 +70,10 @@ export default function EcommerceCheckout() {
   return (
     <Page title="Checkout">
       <Container maxWidth="lg">
+        <HeaderBreadcrumbs
+          heading="Checkout"
+        />
+
         <Grid container justifyContent={isComplete ? 'center' : 'flex-start'}>
           <Grid item xs={12} md={8} sx={{ mb: 5 }}>
             <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>

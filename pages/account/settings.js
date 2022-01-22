@@ -7,6 +7,7 @@ import Iconify from '../../components/Iconify';
 import AccountGeneral from '../../components/account/AccountGeneral';
 import AccountBilling from '../../components/account/AccountBilling';
 import AccountChangePassword from '../../components/account/AccountChangePassword';
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 
 export default function UserAccount() {
   const [currentTab, setCurrentTab] = useState('general');
@@ -32,6 +33,9 @@ export default function UserAccount() {
   return (
     <Page title="User: Account Settings">
       <Container maxWidth="lg">
+        <HeaderBreadcrumbs
+          heading="Settings"
+        />
 
         <Tabs
           value={currentTab}

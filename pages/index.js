@@ -4,6 +4,7 @@ import Page from '../components/Page';
 import ShopProductList from '../components/shop/ShopProductList';
 import CartWidget from '../components/CartWidget';
 import { get } from '../utils/AsyncApi';
+import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 
 export default function Tickets() {
   const [products, setProducts] = useState([]);
@@ -28,7 +29,11 @@ export default function Tickets() {
 
   return (
     <Page title="Ecommerce: Shop">
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
+        <HeaderBreadcrumbs
+          heading="Tickets"
+        />
+
         <Stack
           spacing={2}
           direction={{ xs: 'column', sm: 'row' }}
