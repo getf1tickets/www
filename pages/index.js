@@ -31,7 +31,7 @@ export default function Tickets() {
   }, [fetchProducts]);
 
   return (
-    <Page title="Ecommerce: Shop">
+    <Page title="The easiest way to get tickets">
       <Container maxWidth="lg">
         <HeaderBreadcrumbs
           heading="Tickets"

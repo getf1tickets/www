@@ -31,7 +31,7 @@ export default function UserAccount() {
   ];
 
   return (
-    <Page title="User: Account Settings">
+    <Page title="Account">
       <Container maxWidth="lg">
         <HeaderBreadcrumbs
           heading="Settings"

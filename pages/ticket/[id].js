@@ -65,7 +65,7 @@ export default function ProductDetails() {
   }, [fetchProduct]);
 
   return (
-    <Page title="Ecommerce: Product Details">
+    <Page title={product ? product.name : 'Loading ...'}>
       <Container maxWidth="lg">
 
         <CartWidget />
