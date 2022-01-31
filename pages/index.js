@@ -71,8 +71,6 @@ export default function Tickets() {
           products={products}
           loading={loading}
         />
-
-        <CartWidget />
       </Container>
     </Page>
   );

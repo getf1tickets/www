@@ -6,6 +6,7 @@ import useResponsive from '../../hooks/useResponsive';
 import useUser from '../../hooks/useUser';
 import { HEADER, NAVBAR } from '../../utils/config';
 import AccountPopover from './AccountPopover';
+import CheckoutPopover from './CheckoutPopover';
 import Iconify from '../../components/Iconify';
 
 const RootStyle = styled(AppBar)(({
@@ -53,10 +54,8 @@ export default function Header({ onOpenSidebar }) {
 
         <Box sx={{ flexGrow: 1 }} />
 
-        <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
-          {/* <LanguagePopover />
-          <NotificationsPopover />
-          <ContactsPopover /> */}
+        <Stack direction="row" alignItems="center" spacing={{ xs: 3 }}>
+          <CheckoutPopover />
           {isAuthenticated && <AccountPopover />}
         </Stack>
       </Toolbar>

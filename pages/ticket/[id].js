@@ -67,9 +67,6 @@ export default function ProductDetails() {
   return (
     <Page title={product ? product.name : 'Loading ...'}>
       <Container maxWidth="lg">
-
-        <CartWidget />
-
         {product && (
           <>
             <Card>
