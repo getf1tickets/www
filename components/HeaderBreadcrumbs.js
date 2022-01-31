@@ -6,7 +6,7 @@ export default function HeaderBreadcrumbs({
   action, heading, moreLink = '' || [], sx,
 }) {
   return (
-    <Box sx={{ mb: 5, ...sx }}>
+    <Box sx={{ my: 5, ...sx }}>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="h4" gutterBottom>
