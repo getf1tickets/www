@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import MenuPopover from '../../components/MenuPopover';
 import Avatar from '../../components/Avatar';
+import useUser from '../../hooks/useUser';
 
 const MENU_OPTIONS = [
   {
@@ -12,20 +13,13 @@ const MENU_OPTIONS = [
     linkTo: '/',
   },
   {
-    label: 'Profile',
-    linkTo: 'PATH_DASHBOARD.user.profile',
-  },
-  {
     label: 'Settings',
-    linkTo: 'PATH_DASHBOARD.user.account',
+    linkTo: '/account/settings',
   },
 ];
 
 export default function AccountPopover() {
-  const user = {
-    displayName: 'Maxime',
-    email: 'maxime@f1',
-  };
+  const user = useUser();
 
   const [open, setOpen] = useState(null);
 
@@ -38,6 +32,7 @@ export default function AccountPopover() {
   };
 
   const handleLogout = async () => {
+    user.clearAuthEntity();
   };
 
   return (
@@ -60,7 +55,7 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            {user?.displayName}
+            {user?.info?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
             {user?.email}
