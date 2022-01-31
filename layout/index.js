@@ -69,7 +69,9 @@ export default function Layout({ children, onlyLogo = false, noLogo = false }) {
 
       <NavbarVertical isOpenSidebar={open} onCloseSidebar={() => setOpen(false)} />
 
-      <MainStyle>{children}</MainStyle>
+      <MainStyle>
+        {children}
+      </MainStyle>
     </Box>
   );
 }

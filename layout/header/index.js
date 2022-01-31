@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import {
-  Box, AppBar, Toolbar, Stack,
+  Box, AppBar, Toolbar, Stack, Alert,
 } from '@mui/material';
 import useResponsive from '../../hooks/useResponsive';
 import useUser from '../../hooks/useUser';
@@ -12,7 +12,7 @@ const RootStyle = styled(AppBar)(({
   theme,
 }) => ({
   boxShadow: 'none',
-  height: HEADER.MOBILE_HEIGHT,
+  // height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
   transition: theme.transitions.create(['width', 'height'], {
     duration: theme.transitions.duration.shorter,
@@ -29,11 +29,21 @@ export default function Header({ onOpenSidebar }) {
   const { isAuthenticated } = useUser();
 
   return (
-    <RootStyle>
+    <RootStyle sx={{ pb: { lg: 2 } }}>
+      <Alert severity="warning" sx={{ width: '100%', borderRadius: 0 }}>
+        This website is an
+        {' '}
+        <b>educational</b>
+        {' '}
+        website.
+        {' '}
+        <b>We do NOT provide any features, tickets or real payments.</b>
+      </Alert>
       <Toolbar
         sx={{
           minHeight: '100% !important',
           px: { lg: 5 },
+          py: 1,
         }}
       >
 
