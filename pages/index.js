@@ -1,14 +1,19 @@
 import { useState, useCallback, useEffect } from 'react';
-import { Container, Stack } from '@mui/material';
+import {
+  Container, Stack, Button,
+} from '@mui/material';
+import NextLink from 'next/link';
 import Page from '../components/Page';
 import ShopProductList from '../components/shop/ShopProductList';
-import CartWidget from '../components/CartWidget';
 import { get } from '../utils/AsyncApi';
 import HeaderBreadcrumbs from '../components/HeaderBreadcrumbs';
 import useNotification from '../hooks/useNotification';
+import Iconify from '../components/Iconify';
+import useUser from '../hooks/useUser';
 
 export default function Tickets() {
   const notification = useNotification();
+  const { isAdmin } = useUser();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -35,6 +40,13 @@ export default function Tickets() {
       <Container maxWidth="lg">
         <HeaderBreadcrumbs
           heading="Tickets"
+          action={isAdmin && (
+            <NextLink href="/admin/new-product" passHref>
+              <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
+                New Product
+              </Button>
+            </NextLink>
+          )}
         />
 
         <Stack

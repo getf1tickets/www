@@ -2,9 +2,10 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { alpha, styled } from '@mui/material/styles';
 import {
-  Box, Tab, Card, Grid, Divider, Container, Typography,
+  Box, Tab, Card, Grid, Divider, Container, Typography, Button,
 } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
+import NextLink from 'next/link';
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import SkeletonProduct from '../../components/skeleton/SkeletonProduct';
@@ -12,7 +13,8 @@ import { get } from '../../utils/AsyncApi';
 import ProductDetailsCarousel from '../../components/product/ProductDetailsCarousel';
 import ProductDetailsSummary from '../../components/product/ProductDetailsSummary';
 import Markdown from '../../components/Markdown';
-import CartWidget from '../../components/CartWidget';
+import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
+import useUser from '../../hooks/useUser';
 
 const PRODUCT_DESCRIPTION = [
   {
@@ -44,6 +46,8 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 export default function ProductDetails() {
   const { query } = useRouter();
+  const { isAdmin } = useUser();
+
   const { id } = query;
   const [product, setProduct] = useState(null);
 
@@ -67,6 +71,22 @@ export default function ProductDetails() {
   return (
     <Page title={product ? product.name : 'Loading ...'}>
       <Container maxWidth="lg">
+        <HeaderBreadcrumbs
+          heading={product ? product.name : 'Loading ...'}
+          action={isAdmin && product && (
+            <>
+              <NextLink href={`/admin/product/${id}/edit`} passHref>
+                <Button variant="contained" startIcon={<Iconify icon="eva:edit-2-fill" />}>
+                  Edit
+                </Button>
+              </NextLink>
+              <Button sx={{ ml: 2 }} variant="contained" startIcon={<Iconify icon="ant-design:delete-filled" />}>
+                Delete
+              </Button>
+            </>
+          )}
+        />
+
         {product && (
           <>
             <Card>
