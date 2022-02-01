@@ -5,11 +5,14 @@ import Layout from '../layout';
 import UserProvider from '../contexts/user';
 import CheckoutProvider from '../contexts/checkout';
 
+import '../utils/highlight';
+
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'simplebar/dist/simplebar.min.css';
 import 'react-image-lightbox/style.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'react-quill/dist/quill.snow.css';
 
 // lazy image
 import 'react-lazy-load-image-component/src/effects/blur.css';

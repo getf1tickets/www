@@ -9,12 +9,13 @@ import NextLink from 'next/link';
 import Page from '../../components/Page';
 import Iconify from '../../components/Iconify';
 import SkeletonProduct from '../../components/skeleton/SkeletonProduct';
-import { get } from '../../utils/AsyncApi';
+import { del, get } from '../../utils/AsyncApi';
 import ProductDetailsCarousel from '../../components/product/ProductDetailsCarousel';
 import ProductDetailsSummary from '../../components/product/ProductDetailsSummary';
 import Markdown from '../../components/Markdown';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import useUser from '../../hooks/useUser';
+import useNotification from '../../hooks/useNotification';
 
 const PRODUCT_DESCRIPTION = [
   {
@@ -45,8 +46,9 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 }));
 
 export default function ProductDetails() {
-  const { query } = useRouter();
+  const { query, push } = useRouter();
   const { isAdmin } = useUser();
+  const notification = useNotification();
 
   const { id } = query;
   const [product, setProduct] = useState(null);
@@ -68,6 +70,20 @@ export default function ProductDetails() {
     fetchProduct();
   }, [fetchProduct]);
 
+  const handleDelete = useCallback(async () => {
+    if (!product) return;
+
+    const { error } = await del(`/product/${id}`);
+
+    if (error) {
+      notification.error('An error occurred while deleting product, please try again.');
+      return;
+    }
+
+    notification.success('Delete success!');
+    push('/');
+  }, [product, push, notification, id]);
+
   return (
     <Page title={product ? product.name : 'Loading ...'}>
       <Container maxWidth="lg">
@@ -80,7 +96,7 @@ export default function ProductDetails() {
                   Edit
                 </Button>
               </NextLink>
-              <Button sx={{ ml: 2 }} variant="contained" startIcon={<Iconify icon="ant-design:delete-filled" />}>
+              <Button sx={{ ml: 2 }} variant="contained" onClick={handleDelete} startIcon={<Iconify icon="ant-design:delete-filled" />}>
                 Delete
               </Button>
             </>
