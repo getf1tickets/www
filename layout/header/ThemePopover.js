@@ -12,6 +12,6 @@ export default function CheckoutPopover() {
   }, [themeMode, setTheme]);
 
   return (
-    <Iconify onClick={handleClick} icon="gg:dark-mode" width={26} height={26} sx={{ color: theme.palette.background.invert }} />
+    <Iconify onClick={handleClick} icon="gg:dark-mode" width={26} height={26} sx={{ color: theme.palette.background.invert, cursor: 'pointer' }} />
   );
 }
