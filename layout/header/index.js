@@ -8,6 +8,7 @@ import { HEADER, NAVBAR } from '../../utils/config';
 import AccountPopover from './AccountPopover';
 import CheckoutPopover from './CheckoutPopover';
 import Iconify from '../../components/Iconify';
+import ThemePopover from './ThemePopover';
 
 const RootStyle = styled(AppBar)(({
   theme,
@@ -55,6 +56,7 @@ export default function Header({ onOpenSidebar }) {
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack direction="row" alignItems="center" spacing={{ xs: 3 }}>
+          <ThemePopover />
           <CheckoutPopover />
           {isAuthenticated && <AccountPopover />}
         </Stack>

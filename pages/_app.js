@@ -18,6 +18,7 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import 'react-lazy-load-image-component/src/effects/black-and-white.css';
+import SettingsProvider from '../contexts/settings';
 
 function MyApp({ Component, pageProps }) {
   const { getLayout } = Component;
@@ -28,20 +29,22 @@ function MyApp({ Component, pageProps }) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
-      <ThemeProvider>
-        <SnackbarProvider>
-          <UserProvider>
-            <CheckoutProvider>
-              {getLayout && getLayout(<Component {...pageProps} />)}
-              {!getLayout && (
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-              )}
-            </CheckoutProvider>
-          </UserProvider>
-        </SnackbarProvider>
-      </ThemeProvider>
+      <SettingsProvider>
+        <ThemeProvider>
+          <SnackbarProvider>
+            <UserProvider>
+              <CheckoutProvider>
+                {getLayout && getLayout(<Component {...pageProps} />)}
+                {!getLayout && (
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+                )}
+              </CheckoutProvider>
+            </UserProvider>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </SettingsProvider>
     </>
   );
 }

@@ -1,6 +1,4 @@
-import PropTypes from 'prop-types';
 import { useMemo } from 'react';
-
 import { CssBaseline } from '@mui/material';
 import { createTheme, ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 import palette from './palette';
@@ -8,14 +6,10 @@ import typography from './typography';
 import breakpoints from './breakpoints';
 import componentsOverride from './overrides';
 import shadows, { customShadows } from './shadows';
-
-// eslint-disable-next-line no-use-before-define
-ThemeProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+import useSettings from '../hooks/useSettings';
 
 export default function ThemeProvider({ children }) {
-  const [themeMode, themeDirection] = ['dark', 'ltr'];
+  const { theme: themeMode, themeDirection } = useSettings();
   const isLight = themeMode === 'light';
 
   const themeOptions = useMemo(

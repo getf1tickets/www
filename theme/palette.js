@@ -113,14 +113,18 @@ const palette = {
     ...COMMON,
     mode: 'light',
     text: { primary: GREY[800], secondary: GREY[600], disabled: GREY[500] },
-    background: { paper: '#fff', default: '#fff', neutral: GREY[200] },
+    background: {
+      paper: '#fff', default: '#fff', neutral: GREY[200], invert: GREY[600],
+    },
     action: { active: GREY[600], ...COMMON.action },
   },
   dark: {
     ...COMMON,
     mode: 'dark',
     text: { primary: '#fff', secondary: GREY[500], disabled: GREY[600] },
-    background: { paper: GREY[800], default: GREY[900], neutral: GREY[500_16] },
+    background: {
+      paper: GREY[800], default: GREY[900], neutral: GREY[500_16], invert: '#fff',
+    },
     action: { active: GREY[500], ...COMMON.action },
   },
 };
