@@ -4,8 +4,12 @@ import { useForm } from 'react-hook-form';
 import { Stack, Card, Typography } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import { FormProvider, RHFTextField } from '../form';
+import useNotification from '../../hooks/useNotification';
+import { post } from '../../utils/AsyncApi';
 
 export default function AccountChangePassword() {
+  const notification = useNotification();
+
   const ChangePassWordSchema = Yup.object().shape({
     oldPassword: Yup.string().required('Old Password is required'),
     newPassword: Yup.string().min(6, 'Password must be at least 6 characters').required('New Password is required'),
@@ -25,11 +29,23 @@ export default function AccountChangePassword() {
 
   const {
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = methods;
 
   const onSubmit = async (data) => {
-    console.log(data);
+    const { error } = await post('/user/@me', {
+      password: data,
+    });
+
+    if (error) {
+      notification.error('An error occurred while changing your settings');
+      reset();
+      return;
+    }
+
+    notification.success('Your password has been changed');
+    reset();
   };
 
   return (

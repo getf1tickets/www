@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import {
   Box, Divider, Typography, Stack, MenuItem,
 } from '@mui/material';
@@ -20,6 +21,7 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const user = useUser();
+  const { push } = useRouter();
 
   const [open, setOpen] = useState(null);
 
@@ -33,6 +35,7 @@ export default function AccountPopover() {
 
   const handleLogout = async () => {
     user.clearAuthEntity();
+    push('/');
   };
 
   return (
