@@ -33,6 +33,10 @@ export default function NavSectionVertical({ navConfig, ...other }) {
           return null;
         }
 
+        if (group.require?.admin && !user.isAdmin) {
+          return null;
+        }
+
         return ((
           <List key={group.subheader || v4()} disablePadding sx={{ px: 2 }}>
             <ListSubheaderStyle>

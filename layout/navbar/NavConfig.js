@@ -60,9 +60,9 @@ const navConfig = [
     },
     items: [
       {
-        title: 'manage',
+        title: 'dashboard',
         path: '/admin',
-        icon: <Iconify icon="whh:indexmanager" />,
+        icon: <Iconify icon="ant-design:dashboard-filled" />,
       },
     ],
   },

@@ -29,6 +29,7 @@ export default function Tickets() {
 
     setLoading(false);
     setProducts(result);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setProducts, setLoading]); // do not include notification dependency here
 
   useEffect(() => {
