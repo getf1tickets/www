@@ -34,7 +34,7 @@ export default function ProductMoreMenu({ orderId }) {
           '& .MuiMenuItem-root': { px: 1, typography: 'body2', borderRadius: 0.75 },
         }}
       >
-        <NextLink href={`/order/${orderId}/download`}>
+        <NextLink href={`/order/${orderId}`}>
           <MenuItem sx={{ borderRadius: 1, typography: 'body2' }}>
             <Iconify icon="ant-design:file-pdf-filled" sx={{ mr: 2, width: 24, height: 24 }} />
             Download
