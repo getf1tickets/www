@@ -4,6 +4,7 @@ import ThemeProvider from '../theme';
 import Layout from '../layout';
 import UserProvider from '../contexts/user';
 import CheckoutProvider from '../contexts/checkout';
+import SettingsProvider from '../contexts/settings';
 
 import '../utils/highlight';
 
@@ -18,7 +19,6 @@ import 'react-quill/dist/quill.snow.css';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
 import 'react-lazy-load-image-component/src/effects/black-and-white.css';
-import SettingsProvider from '../contexts/settings';
 
 function MyApp({ Component, pageProps }) {
   const { getLayout } = Component;

@@ -20,15 +20,15 @@ import {
   useMemo,
 } from 'react';
 import { useRouter } from 'next/router';
+import * as qrCode from 'qr-image';
 import { fCurrency } from '../../utils/formatNumber';
 import Page from '../../components/Page';
-import Label from '../../components/Label';
 import Image from '../../components/Image';
+import Label from '../../components/Label';
 import Scrollbar from '../../components/Scrollbar';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { get } from '../../utils/AsyncApi';
 import OrderToolbar from '../../components/order/OrderToolbar';
-// import { InvoiceToolbar } from '../../../sections/@dashboard/e-commerce/invoice';
 
 const RowResultStyle = styled(TableRow)(({ theme }) => ({
   '& td': {
@@ -44,6 +44,11 @@ export default function OrderDetails() {
   const [order, setOrder] = useState(null);
   const orderId = useMemo(() => `${order?.id}`.split('-')[0].toUpperCase(), [order]);
   const isSuccess = useMemo(() => order?.status === 'completed', [order]);
+
+  const qrCodeContent = useMemo(() => `data:image/png;base64,${qrCode.imageSync(
+    `issuer.getf1tickets.com::${order?.id}`,
+    { size: 50 },
+  ).toString('base64')}`, [order]);
 
   const fetchOrder = useCallback(async () => {
     if (!id) return;
@@ -69,12 +74,13 @@ export default function OrderDetails() {
           heading="Order Details"
         />
 
-        {isSuccess && <OrderToolbar order={order} orderId={orderId} />}
+        {isSuccess
+        && <OrderToolbar order={order} orderId={orderId} qrCodeContent={qrCodeContent} />}
 
         <Card sx={{ pt: 5, px: 5 }}>
           <Grid container>
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-              <Image disabledEffect visibleByDefault alt="logo" src="https://fr.qr-code-generator.com/wp-content/themes/qr/new_structure/markets/core_market/generator/dist/generator/assets/images/websiteQRCode_noFrame.png" sx={{ maxWidth: 180 }} />
+              <Image disabledEffect visibleByDefault alt="logo" src={qrCodeContent} sx={{ maxWidth: 180 }} />
             </Grid>
 
             <Grid item xs={12} sm={6} sx={{ mb: 5 }}>

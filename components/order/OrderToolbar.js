@@ -16,7 +16,9 @@ const RootStyle = styled('div')(({ theme }) => ({
   marginBottom: theme.spacing(5),
 }));
 
-export default function OrderToolbar({ orderId, order, ...other }) {
+export default function OrderToolbar({
+  orderId, order, qrCodeContent, ...other
+}) {
   const [openPDF, setOpenPDF] = useState(false);
   const [isClient, setIsClient] = useState(false);
 
@@ -47,7 +49,7 @@ export default function OrderToolbar({ orderId, order, ...other }) {
 
       {isClient && (
       <PDFDownloadLink
-        document={<OrderPDF order={order} orderId={orderId} />}
+        document={<OrderPDF order={order} orderId={orderId} qrCodeContent={qrCodeContent} />}
         fileName={`n°${orderId}`}
         style={{ textDecoration: 'none' }}
       >
@@ -82,7 +84,7 @@ export default function OrderToolbar({ orderId, order, ...other }) {
           </DialogActions>
           <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
             <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
-              <OrderPDF order={order} orderId={orderId} />
+              <OrderPDF order={order} orderId={orderId} qrCodeContent={qrCodeContent} />
             </PDFViewer>
           </Box>
         </Box>

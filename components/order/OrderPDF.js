@@ -5,7 +5,7 @@ import {
 import { fCurrency } from '../../utils/formatNumber';
 import styles from './OrderPDFStyle';
 
-export default function InvoicePDF({ order, orderId }) {
+export default function InvoicePDF({ order, orderId, qrCodeContent }) {
   const {
     products, total, subtotal, status, address,
   } = order;
@@ -14,7 +14,7 @@ export default function InvoicePDF({ order, orderId }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={[styles.gridContainer, styles.mb40]}>
-          <Image source="https://s3.getf1tickets.com/public/logo-larger.png" style={{ height: 32 }} />
+          <Image source={qrCodeContent} style={{ height: 96 }} />
           <View style={{ alignItems: 'flex-end', flexDirection: 'column' }}>
             <Text style={styles.h3}>{status}</Text>
             <Text>
