@@ -39,10 +39,6 @@ export default function CheckoutBillingAddress() {
     previousActiveStep();
   }, [previousActiveStep]);
 
-  const handleCreateBilling = useCallback((value) => {
-    console.log('handleCreateBilling', value);
-  }, []);
-
   const handleSelectAddress = useCallback((id) => {
     setBillingAddressId(id);
     nextActiveStep();
@@ -85,7 +81,6 @@ export default function CheckoutBillingAddress() {
         open={open}
         onClose={handleClose}
         onNextStep={handleNextStep}
-        onCreateBilling={handleCreateBilling}
       />
     </>
   );

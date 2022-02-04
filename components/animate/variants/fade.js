@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 import { varTranEnter, varTranExit } from './transition';
 
 export const varFade = (props) => {

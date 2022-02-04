@@ -6,7 +6,6 @@ import { useRouter } from 'next/router';
 import {
   Grid, Card, Button, CardHeader, Typography,
 } from '@mui/material';
-// components
 import Iconify from '../Iconify';
 import Scrollbar from '../Scrollbar';
 import EmptyContent from './CheckoutEmpty';
@@ -57,9 +56,7 @@ export default function CheckoutCart() {
     decreaseProductQuantity(productId);
   }, [decreaseProductQuantity]);
 
-  const handleApplyDiscount = useCallback((value) => {
-    console.log('handleApplyDiscount', value);
-  }, []);
+  const handleApplyDiscount = useCallback((value) => null, []);
 
   return (
     <Grid container spacing={3}>

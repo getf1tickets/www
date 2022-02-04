@@ -27,6 +27,7 @@ export default function ProductCreate() {
 
     setProduct(result);
     setLoading(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, setProduct]);
 
   useEffect(() => {
