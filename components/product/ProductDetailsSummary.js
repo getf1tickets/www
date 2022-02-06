@@ -60,7 +60,7 @@ export default function ProductDetailsSummary({
 
   const handleAddCart = useCallback(async () => {
     checkout.addProduct(values, values.quantity);
-  }, [checkout]);
+  }, [checkout, values]);
 
   return (
     <RootStyle {...other}>

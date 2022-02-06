@@ -1,6 +1,5 @@
 import { forwardRef } from 'react';
 import NextLink from 'next/link';
-import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import Image from './Image';
 
