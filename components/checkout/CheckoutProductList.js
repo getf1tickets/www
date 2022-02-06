@@ -105,11 +105,11 @@ function Incrementer({
           <Iconify icon="eva:plus-fill" width={16} height={16} />
         </IconButton>
       </IncrementerStyle>
-      <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+      {/* <Typography variant="caption" sx={{ color: 'text.secondary' }}>
         available:
         {' '}
         {available}
-      </Typography>
+      </Typography> */}
     </Box>
   );
 }

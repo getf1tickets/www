@@ -47,7 +47,7 @@ export default function ProductDetailsSummary({
   });
 
   const {
-    watch, setValue, handleSubmit,
+    watch, handleSubmit,
   } = methods;
 
   const values = watch();
@@ -76,7 +76,7 @@ export default function ProductDetailsSummary({
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <Stack direction="row" justifyContent="space-between" sx={{ my: 3 }}>
+        {/* <Stack direction="row" justifyContent="space-between" sx={{ my: 3 }}>
           <Typography variant="subtitle1" sx={{ mt: 0.5 }}>
             Quantity
           </Typography>
@@ -89,13 +89,14 @@ export default function ProductDetailsSummary({
               onIncrementQuantity={() => setValue('quantity', values.quantity + 1)}
               onDecrementQuantity={() => setValue('quantity', values.quantity - 1)}
             />
-            <Typography variant="caption" component="div" sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}>
+            <Typography variant="caption" component="div"
+            sx={{ mt: 1, textAlign: 'right', color: 'text.secondary' }}>
               Available:
               {' '}
               {50}
             </Typography>
           </div>
-        </Stack>
+        </Stack> */}
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
@@ -123,6 +124,7 @@ export default function ProductDetailsSummary({
   );
 }
 
+// eslint-disable-next-line no-unused-vars
 function Incrementer({
   available, quantity, onIncrementQuantity, onDecrementQuantity,
 }) {
