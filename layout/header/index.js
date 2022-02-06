@@ -20,7 +20,7 @@ const RootStyle = styled(AppBar)(({
     duration: theme.transitions.duration.shorter,
   }),
   [theme.breakpoints.up('lg')]: {
-    height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
+    height: HEADER.DASHBOARD_DESKTOP_HEIGHT + 34,
     width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
     backgroundColor: theme.palette.background.default,
   },
