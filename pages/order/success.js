@@ -28,7 +28,7 @@ export default function CheckoutOrderComplete() {
 
   const handleResetStep = useCallback(() => {
     reset();
-    push(`/user/order/${query.orderId || ''}`);
+    push(`/order/${query.orderId || ''}`);
   }, [push, reset, query.orderId]);
 
   const handleWebsiteClick = useCallback(() => {
