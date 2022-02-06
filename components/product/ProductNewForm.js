@@ -14,7 +14,7 @@ import {
   RHFEditor,
 } from '../form';
 import useNotification from '../../hooks/useNotification';
-import { put } from '../../utils/AsyncApi';
+import api from '../../utils/AsyncApi';
 
 const LabelStyle = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle2,
@@ -63,7 +63,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
   }, [isEdit, currentProduct]);
 
   const onSubmit = useCallback(async (data) => {
-    const { error } = await put(isEdit ? `/product/${currentProduct?.id}` : '/product', {
+    const { error } = await api[isEdit ? 'put' : 'post'](isEdit ? `/product/${currentProduct?.id}` : '/product', {
       ...data,
       images: ['https://sf2.auto-moto.com/wp-content/uploads/sites/9/2021/12/icon_010901_0247-e1639040980772.jpg'],
     });
